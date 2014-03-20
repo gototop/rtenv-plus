@@ -38,14 +38,14 @@ qemudbg_remote_bg: $(OUTDIR)/$(TARGET).bin $(QEMU_STM32)
 emu: $(OUTDIR)/$(TARGET).bin
 	bash $(TOOLDIR)/emulate.sh $(OUTDIR)/$(TARGET).bin
 
-qemuauto: $(OUTDIR)/$(TARGET).bin $(TOOLDIR)gdbscript
-	bash $(TOOLDIR)emulate.sh $(OUTDIR)/$(TARGET).bin &
+qemuauto: $(OUTDIR)/$(TARGET).bin $(TOOLDIR)/gdbscript
+	bash $(TOOLDIR)/emulate.sh $(OUTDIR)/$(TARGET).bin &
 	sleep 1
 	$(CROSS_COMPILE)gdb -x gdbscript&
 	sleep 5
 
-qemuauto_remote: $(OUTDIR)/$(TARGET).bin $(TOOLDIR)gdbscript
-	bash $(TOOLDIR)emulate_remote.sh $(OUTDIR)/$(TARGET).bin &
+qemuauto_remote: $(OUTDIR)/$(TARGET).bin $(TOOLDIR)/gdbscript
+	bash $(TOOLDIR)/emulate_remote.sh $(OUTDIR)/$(TARGET).bin &
 	sleep 1
 	$(CROSS_COMPILE)gdb -x gdbscript&
 	sleep 5

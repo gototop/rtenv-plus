@@ -21,6 +21,10 @@
 #include "event-monitor.h"
 #include "romfs.h"
 
+#ifdef DEBUG
+#include "unit_test.h"
+#endif
+
 #define MAX_CMDNAME 19
 #define MAX_ARGC 19
 #define MAX_CMDHELP 1023
@@ -42,6 +46,7 @@ void check_keyword();
 void find_events();
 int fill_arg(char *const dest, const char *argv);
 void itoa(int n, char *dst, int base);
+//void itoa(int, char *);
 void write_blank(int blank_num);
 
 /* Command handlers. */
@@ -477,6 +482,7 @@ void show_task_info(int argc, char* argv[])
 		task_info_status[1]='\0';			
 
 		itoa(tasks[task_i].priority, task_info_priority, 10);
+		//itoa(tasks[task_i].priority,task_info_priority);
 
 		write(fdout, &task_info_pid , 2);
 		write_blank(3);
@@ -508,6 +514,29 @@ void itoa(int n, char *dst, int base)
 
 	strcpy(dst, p);
 }
+
+/*void itoa(int n, char *buffer)
+{
+	if (n == 0)
+		*(buffer++) = '0';
+	else {
+		int f = 10000;
+
+		if (n < 0) {
+			*(buffer++) = '-';
+			n = -n;
+		}
+
+		while (f != 0) {
+			int i = n / f;
+			if (i != 0) {
+				*(buffer++) = '0'+(i%10);;
+			}
+			f/=10;
+		}
+	}
+	*buffer = '\0';
+}*/
 
 //help
 
@@ -987,6 +1016,11 @@ int main()
 		task = list_entry(list, struct task_control_block, list);
 		current_task = task->pid;
 	}
-
+	
+#ifdef DEBUG
+	unit_test();
+#endif
+	
 	return 0;
 }
+
