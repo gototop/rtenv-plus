@@ -643,11 +643,8 @@ void insert_datachain(struct file_new **first, char *name, char *context)
 	//struct file_new *prevptr;
 	struct file_new *newptr;
 	struct file_new *firstptr;
+	char *c;
 	
-	write(fdout, name, strlen(name)+1);
-	write(fdout, "\r\n", 3);
-	write(fdout, context, strlen(context)+1);
-	write(fdout, "\r\n", 3);
 
 	firstptr = *first;
 	glbptr = firstptr;
@@ -670,6 +667,10 @@ void insert_datachain(struct file_new **first, char *name, char *context)
 	newptr->name = *name;
 	newptr->context = *context;
 	newptr->nextdata = NULL;
+	
+	c = newptr;
+	write(fdout, c, strlen(c)+1);
+	write(fdout, "\r\n", 3);
 
 	if(nowptr == NULL){
 		firstptr->name = newptr->name;
@@ -776,6 +777,8 @@ void show_xxd(int argc, char *argv[])
         write(fdout, "\r\n", 3);
     }
 	
+	write(fdout, &ch, sizeof(ch)+1);
+	write(fdout, "\r\n", 3);
 	insert_datachain( &dataptr, argv[1], &ch);
 	
 	return;
